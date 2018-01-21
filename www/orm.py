@@ -24,13 +24,16 @@ def create_pool(loop, **kw):
         host=kw.get('host', 'localhost'),
         port=kw.get('port', 3306),
         user=kw['user'],
+        password=kw['password'],
         db=kw['db'],
-        charset=kw.get('charset', 'utf-8'),
+        charset=kw.get('charset', 'utf8'),
         autocommit=kw.get('autocommit', True),
         maxsize=kw.get('maxsize', 10),
         minsize=kw.get('minsize', 1),
         loop=loop
     )
+    """缺少了password这项导致连接MySQL Server失败(2003)"""
+    """charset这行用utf-8会出现'connection' object has no attribute '_writer'"""
 
 """
 用select函数执行SELECT语句，需要传入SQL语句和SQL参数。不要用自己拼接SQL字符串，以防止SQL注入攻击

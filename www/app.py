@@ -7,14 +7,13 @@ Day 2 - 编写Web App骨架
 @author: Harbinger
 """
 
-import logging
-logging.basicConfig(level=logging.INFO)
+import logging; logging.basicConfig(level=logging.INFO)
 
 import asyncio, os, json, time
 from datetime import datetime
 
 from aiohttp import web
-from jinja2 import Enviroment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader
 
 import orm
 from coroweb import add_routes, add_static
@@ -36,7 +35,7 @@ def init_jinja2(app, **kw):
     if path is None:
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
     logging.info('set jinja2 template path: %s' % path)
-    env = Enviroment(loader=FileSystemLoader(path), **options)
+    env = Environment(loader=FileSystemLoader(path), **options)
     filters = kw.get('filters', None)
     if filters is not None:
         for name, f in filters.items():
@@ -60,7 +59,7 @@ def logger_factory(app, handler):
 """
 
 async def logger_factory(app, handler):
-    def logger(request):
+    async def logger(request):
         logging.info('Request: %s %s' % (request.method, request.path))
         #await asyncio.sleep(0.3)
         return (await handler(request))
