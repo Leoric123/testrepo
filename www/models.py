@@ -3,16 +3,21 @@
 Created on Sat Dec 30 10:01:12 2017
 
 Day 4 - 编写Model：把Web App需要的3个表用Model表示出来
+Day 14 - 更新models
 
 @author: Harbinger
 """
 
 import time, uuid
 
-from orm import Model, StringField, BooleanField, FloatField, TextField
+#from orm import Model, StringField, BooleanField, FloatField, TextField
+from transwarp.db import next_id
+from transwarp.orm import Model, StringField, BooleanField, FloatField, TextField
 
+"""
 def next_id():
     return '%015d%s000' % (int(time.time() * 1000), uuid.uuid4().hex)
+"""
 
 """
 1 给Field增加一个default参数可以让ORM自己填入缺省值，并且缺省值可以作为函数对象传入，在调用save()时自动计算
@@ -29,7 +34,8 @@ class User(Model):
     admin = BooleanField()
     name = StringField(ddl='varchar(50)')
     image = StringField(ddl='varchar(500)')
-    create_at = FloatField(default=time.time)
+    #create_at = FloatField(default=time.time)
+    create_at = FloatField(updatable=False, default=time.time)
     
 class Blog(Model):
     __table__ = 'blogs'
@@ -41,7 +47,8 @@ class Blog(Model):
     name = StringField(ddl='varchar(50)')
     summary = StringField(ddl='varchar(200)')
     content = TextField()
-    create_at = FloatField(default=time.time)
+    #create_at = FloatField(default=time.time)
+    create_at = FloatField(updatable=False, default=time.time)
     
 class Comment(Model):
     __table__ = 'comments'
@@ -52,4 +59,5 @@ class Comment(Model):
     user_name = StringField(ddl='varchar(50)')
     user_image = StringField(ddl='varchar(500)')
     content = TextField()
-    create_at = FloatField(default=time.time)
+    #create_at = FloatField(default=time.time)
+    create_at = FloatField(updatable=False, default=time.time)
